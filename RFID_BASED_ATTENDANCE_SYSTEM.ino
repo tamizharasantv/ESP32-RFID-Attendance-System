@@ -8,10 +8,10 @@
 #include "time.h"
 
 // ================= WiFi =================
-const char* ssid = "Neo!";
-const char* password = "tamizh11";
+const char* ssid = "Neo!";//YOUR WIFI NAME REMAINDER:IT SUPPORT ONLY 2.4GHZ BAND//
+const char* password = "neo111111";//HERE YOU NEED TO WRITE YOUR WIFI PASSWORD//
 
-String serverName = "https://script.google.com/macros/s/AKfycbyKrZ03geZt0oNEGCtifnFSBvu8F3UaJZbI_1o9sUAcJL8do1RBAoQh-EqW_vq8cEtM/exec";
+String serverName = "https://script.google.com/macros/s/AKfycbyKrZ03geZt0oNEGCtifnFSBvu8FRBAoQh-EqW_vq8cEtM/exec";//PASTE YOUR GOOGLE SHEET LINK//
 
 // ================= RFID =================
 #define SS_PIN 5
