@@ -1,0 +1,121 @@
+# Google Sheets Implementation
+
+## Step 1: Create Google Sheet
+
+1. Open Google Sheets
+2. Create a new spreadsheet
+3. Rename the sheet as:
+   RFID Attendance System
+
+## Step 2: Open Apps Script
+
+1. In Google Sheets, click:
+   Extensions → Apps Script
+2. Delete default code
+3. Paste the Google Apps Script code
+
+## Step 3: Paste the Script
+
+```javascript
+function doGet(e) {
+  var sheet = SpreadsheetApp.getActiveSpreadsheet().getActiveSheet();
+
+  var headers = ["Name", "Entry/Exit", "RFID", "Date", "Time"];
+  var firstRow = sheet.getRange(1, 1, 1, headers.length).getValues()[0];
+
+  if (firstRow.join("") === "") {
+    sheet.getRange(1, 1, 1, headers.length).setValues([headers]);
+  }
+
+  if (!e || !e.parameter) {
+    return ContentService.createTextOutput(
+      JSON.stringify({status:"error", message:"No parameters received"})
+    ).setMimeType(ContentService.MimeType.JSON);
+  }
+
+  var name  = e.parameter.name  || "Unknown";
+  var entry = e.parameter.entry || "ENTRY";
+  var rfid  = e.parameter.rfid  || "";
+  var date  = e.parameter.date  || "";
+  var time  = e.parameter.time  || "";
+
+  var rowData = [name, entry, rfid, date, time];
+  sheet.appendRow(rowData);
+
+  return ContentService.createTextOutput(
+    JSON.stringify({status:"success", name, entry, rfid, date, time})
+  ).setMimeType(ContentService.MimeType.JSON);
+}
+```
+
+---
+
+## Step 4: Deploy Web App
+
+1. Click Deploy → New Deployment
+2. Select:
+   Web App
+3. Set:
+   • Execute as → Me
+   • Who has access → Anyone
+4. Click Deploy
+5. Authorize permissions
+6. Copy the generated Web App URL
+
+---
+
+## Step 5: Add URL in ESP32 Code
+
+Replace:
+
+```cpp
+String serverName = "YOUR_WEB_APP_URL";
+```
+
+With:
+
+```cpp
+String serverName = "https://script.google.com/macros/s/xxxxxxxxxxxx/exec";
+```
+
+---
+
+## Step 6: Upload ESP32 Code
+
+1. Connect ESP32 to computer
+2. Select correct COM port
+3. Upload Arduino code
+
+---
+
+## Step 7: Test the System
+
+1. Scan RFID card
+2. LCD displays ENTRY or EXIT
+3. Attendance data automatically appears in Google Sheets
+
+---
+
+## Data Stored in Google Sheets
+
+• Name
+• Entry/Exit Status
+• RFID UID
+• Date
+• Time
+
+---
+
+## Working Flow
+
+RFID Card → ESP32 → WiFi → Google Apps Script → Google Sheets
+
+---
+
+## Advantages
+
+• Real-time attendance logging
+• Cloud storage
+• Automatic data entry
+• Easy monitoring
+• No manual attendance required
